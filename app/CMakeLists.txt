@@ -1,0 +1,5 @@
+set(MAIN_SOURCES emu.cpp)
+message("message ${SDL2_LIBRARIES}")
+add_executable(gbemu ${MAIN_SOURCES})
+include_directories(${SDL2_INCLUDE_DIRS})
+target_link_libraries(gbemu ${SDL2_LIBRARIES})
