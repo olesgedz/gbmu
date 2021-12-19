@@ -1,0 +1,13 @@
+[submodule "extern/imgui"]
+	path = extern/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "extern/imgui-filebrowser"]
+	path = extern/imgui-filebrowser
+	url = https://github.com/AirGuanZ/imgui-filebrowser.git
+[submodule "extern/SDL"]
+	path = extern/SDL
+	url = https://github.com/libsdl-org/SDL.git
+[submodule "extern/gl3w"]
+	path = extern/gl3w
+	url = https://github.com/skaslev/gl3w.git
