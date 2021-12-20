@@ -1,4 +1,4 @@
-project(gbemu) #LANGUAGES CXX
+project(gbemu C CXX) #LANGUAGES CXX
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 #if(NOT CMAKE_CXX_EXTENSIONS)
 #	set(CMAKE_CXX_EXTENSIONS OFF)
@@ -29,7 +29,7 @@ add_compile_options(
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2")
 set(CMAKE_BUILD_TYPE Debug)
 if (WIN32)
-	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /W3 /MTd")
+#	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /W3 /MTd")
 	add_subdirectory( extern/SDL )
 ##	add_subdirectory(extern/SDL)
 	include_directories("${PROJECT_SOURCE_DIR}/extern/sdl2_win/include;${PROJECT_SOURCE_DIR}/extern/sdl2_win/include/SDL2")
@@ -46,5 +46,6 @@ elseif(UNIX)
 #	find_package(SDL2 REQUIRED)
 endif()
 include_directories(${SDL2_INCLUDE_DIRS})
+add_subdirectory(extern/gl3w)
 add_subdirectory(lib)
 add_subdirectory(app)

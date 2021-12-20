@@ -5,7 +5,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(gbemu ${MAIN_SOURCES})
 include_directories(${SDL2_INCLUDE_DIRS})
 target_link_libraries(gbemu lib)
-target_link_libraries(gbemu SDL2main SDL2)
+target_link_libraries(gbemu SDL2main SDL2 gl3w)
 
 
 add_custom_command(
