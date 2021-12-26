@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 #if(NOT CMAKE_CXX_EXTENSIONS)
 #	set(CMAKE_CXX_EXTENSIONS OFF)
 #endif()
-#set(CXX_STANDARD 17)
+set(CXX_STANDARD 17)
 add_compile_options(
 #	-Werror
 #
