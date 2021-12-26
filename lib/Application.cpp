@@ -21,6 +21,8 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 void Application::run() {
+  int width = 640;
+  int height = 480;
   const char* glsl_version;
 
   if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -54,15 +56,33 @@ void Application::run() {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #endif
 
+  // select opengl version
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+  // create a window
+  SDL_Window *window;
+  if((window = SDL_CreateWindow("SDL2", 0, 0, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN)) == 0) {
+	std::cerr << "failed to open window" << std::endl;
+	SDL_Quit();
+	return ;
+  }
+
+  SDL_GLContext context = SDL_GL_CreateContext(window);
+
+//  if(gl3wInit()) {
+//	std::cerr << "failed to init GL3W" << std::endl;
+//	SDL_GL_DeleteContext(context);
+//	SDL_DestroyWindow(window);
+//	SDL_Quit();
+//	return ;
+//  }
 
 
 
   SDL_Renderer *sdlRenderer;
   SDL_Surface* screen = NULL;
-  SDL_Window* sdlWindow = NULL;
-
- sdlWindow =  SDL_CreateWindow("ImguiDemoCLion", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-							  1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 
   screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32,
@@ -71,32 +91,30 @@ void Application::run() {
 								0x000000FF,
 								0xFF000000);
 
-  sdlRenderer = SDL_CreateRenderer(sdlWindow, -1,  SDL_RENDERER_ACCELERATED);
+  sdlRenderer = SDL_CreateRenderer(window, -1,  SDL_RENDERER_ACCELERATED);
   SDL_Texture *sdlTexture;
   sdlTexture = SDL_CreateTexture(sdlRenderer,
 								 SDL_PIXELFORMAT_ARGB8888,
 								 SDL_TEXTUREACCESS_STREAMING,
 								 SCREEN_WIDTH, SCREEN_HEIGHT);
-  SDL_GLContext gl_context = SDL_GL_CreateContext(sdlWindow); //needed for init
   if (gl3wInit()) {
 	fprintf(stderr, "failed to initialize OpenGL\n");
 
   }
 
-  //
-//
-//
-//
-  screen = SDL_GetWindowSurface(sdlWindow);
+
+
+
+
+  screen = SDL_GetWindowSurface(window);
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImGuiIO& io = ImGui::GetIO(); (void)io;
   ImGui::StyleColorsDark();
-  SDL_GLContext glcontext = SDL_GL_CreateContext(sdlWindow);
-  SDL_GL_MakeCurrent(sdlWindow, glcontext);
+  SDL_GL_MakeCurrent(window, context);
 
   // Setup ImGui Platform/Renderer bindings
-  ImGui_ImplSDL2_InitForOpenGL(sdlWindow, glcontext);
+  ImGui_ImplSDL2_InitForOpenGL(window, context);
   ImGui_ImplOpenGL3_Init(glsl_version);
 
   SDL_Event e;
@@ -107,7 +125,7 @@ void Application::run() {
 	  exit(0);
 	}
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(sdlWindow);
+	ImGui_ImplSDL2_NewFrame(window);
 	ImGui::NewFrame();
 	ImGui::Begin("Console", nullptr);
 	ImGui::Text("NOTHING.");
@@ -120,14 +138,14 @@ void Application::run() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(sdlWindow);
+	SDL_GL_SwapWindow(window);
 //	SDL_UpdateTexture(sdlTexture, NULL, screen->pixels, screen->pitch);
 //	SDL_RenderClear(sdlRenderer);
 //	SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
 //	SDL_RenderPresent(sdlRenderer);
   }
 
-  SDL_DestroyWindow(sdlWindow);
+  SDL_DestroyWindow(window);
 
   SDL_Quit();
 
