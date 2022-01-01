@@ -1,10 +1,28 @@
-#include <iostream>
-#include "Application.hpp"
+#include "emu.h"
+#include "ppu.h"
+#include "memory.h"
+#include "cpu.h"
+#include "bus.h"
+#include "io.h"
 
-int main(int argc, char **argv)
-{
+bool DEBUG = false;
 
-Application app;
-app.run();
-  return 0;
+namespace dsemu {
+
+void run() {
+    io::init();
+    cpu::init();
+    ppu::init();
+
+    while(true) {
+        if (cpu::paused) {
+            sleepMs(1); //500);
+            continue;
+        }
+
+        cpu::tick();
+        ppu::tick();
+    }
+}
+
 }

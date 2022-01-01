@@ -32,7 +32,7 @@ if (WIN32)
 #	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /W3 /MTd")
 	add_subdirectory( extern/SDL )
 ##	add_subdirectory(extern/SDL)
-	include_directories("${PROJECT_SOURCE_DIR}/extern/sdl2_win/include;${PROJECT_SOURCE_DIR}/extern/sdl2_win/include/SDL2")
+	include_directories("${PROJECT_SOURCE_DIR}/extern/SDL/include;${PROJECT_SOURCE_DIR}/extern/sdl2_win/SDL/SDL2")
 #
 #set(SDL2_DIR "${PROJECT_SOURCE_DIR}/extern/sdl2_win")
 #set(SDL2_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/extern/sdl2_win/include/SDL2")

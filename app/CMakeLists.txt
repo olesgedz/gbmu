@@ -1,4 +1,4 @@
-set(MAIN_SOURCES emu.cpp)
+set(MAIN_SOURCES bus.cpp cart.cpp cpu.cpp emu.cpp io.cpp main.cpp mappers.cpp memory.cpp op_handler.cpp opcodes.cpp ppu.cpp ui.cpp)
 message("message libs  ${SDL2_LIBRARIES}")
 message("message includes: ${SDL2_INCLUDE_DIRS}")
 set(CMAKE_EXE_LINKER_FLAGS "-static")

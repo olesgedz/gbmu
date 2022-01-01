@@ -1,0 +1,11 @@
+Starting main..
+Loaded Rom: ../roms/cpu_instrs.gb
+	    Size: 65536
+	   Title: CPU_INSTRS
+	Cart Typ: 01
+	CGB Flag: 00
+	SGB Flag: 01
+	ROM Size: 00
+	RAM Size: 00
+	Jap Flag: 00
+	   Entry: 00 c3 37 06
