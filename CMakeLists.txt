@@ -43,7 +43,7 @@ if (WIN32)
 #endif ()
 
 elseif(UNIX)
-#	find_package(SDL2 REQUIRED)
+	find_package(SDL2 REQUIRED)
 endif()
 include_directories(${SDL2_INCLUDE_DIRS})
 add_subdirectory(extern/gl3w)
