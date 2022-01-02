@@ -101,7 +101,7 @@ bool Memory::loadRom(std::string const &filename)
 	// For debugging, also try to load a similarly named symbols list file
 	std::filesystem::path symfile = filename;
 	symfile.replace_extension(".sym");
-	tryParseSymbolsFile(symfile);
+	tryParseSymbolsFile(symfile.string());
 	return true;
 }
 

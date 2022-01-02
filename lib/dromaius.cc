@@ -68,7 +68,7 @@ void Dromaius::saveState(uint8_t slot)
 bool Dromaius::loadState(uint8_t slot)
 {
 	size_t expectedLen = sizeof(Audio) + sizeof(CPU) + sizeof(Graphics) + sizeof(Input) + sizeof(Memory);
-	uint8_t state[expectedLen];
+  	uint8_t *state = (uint8_t *)malloc(expectedLen * sizeof(uint8_t));
 
 	// Load file
 	char filename[255];
@@ -86,7 +86,7 @@ bool Dromaius::loadState(uint8_t slot)
 
 	// Read into state
 	file.read((char *)state, expectedLen);
-
+  	free(state);
 	// Save pointers before overwriting
 	uint8_t *rom = memory.rom;
 	auto stepMode = cpu.stepMode;
