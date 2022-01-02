@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cstdarg>
 #include <iostream>
-
+#include <fstream>
 #include "dromaius.h"
 
 #define GUI_INDENT_WIDTH 16.0f
@@ -56,7 +56,7 @@ GUI::GUI() {
 
 	
 	window = SDL_CreateWindow(
-		"Dromaius",
+		"Gbemu",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		initialWidth, initialHeight,
@@ -68,8 +68,7 @@ GUI::GUI() {
 		printf("Failed to create a window.\n");
 		exit(1);
 	}
-
-	glcontext = SDL_GL_CreateContext(window);
+    glcontext = SDL_GL_CreateContext(window);
 	SDL_GL_MakeCurrent(window, glcontext);
 
 	// Init GL functions
@@ -86,19 +85,148 @@ GUI::GUI() {
 }
 
 GUI::~GUI() {
+    size_t settings_size = 1000;
+    const char *ini = ImGui::SaveIniSettingsToMemory(&settings_size);
+    printf("%s\n",ini);
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 	//SDL_GL_DeleteContext(glcontext);
 	//SDL_DestroyWindow(window);
 	SDL_Quit();
 }
+constexpr char imgui_ini[] = "[Window][Main window]\n"
+"Pos=0,0\n"
+"Size=1616,910\n"
+"Collapsed=0\n"
+"[Window][Debug##Default]\n"
+"Pos=60,60\n"
+"Size=400,400\n"
+"Collapsed=0\n"
+"[Window][Info]\n"
+"Pos=0,19\n"
+"Size=220,487\n"
+"Collapsed=0\n"
+"DockId=0x00000007,0\n"
+"[Window][Controls]\n"
+"Pos=0,19\n"
+"Size=220,487\n"
+"Collapsed=0\n"
+"DockId=0x00000007,1\n"
+"[Window][LCD]\n"
+"Pos=222,19\n"
+"Size=791,600\n"
+"Collapsed=0\n"
+"DockId=0x00000009,0\n"
+"[Window][CPU]\n"
+"Pos=1015,19\n"
+"Size=220,600\n"
+"Collapsed=0\n"
+"DockId=0x0000000A,0\n"
+"[Window][Audio]\n"
+"Pos=0,508\n"
+"Size=220,402\n"
+"Collapsed=0\n"
+"DockId=0x00000008,0\n"
+"[Window][Graphics]\n"
+"Pos=1237,19\n"
+"Size=379,891\n"
+"Collapsed=0\n"
+"DockId=0x00000006,0\n"
+"[Window][Memory viewer]\n"
+"Pos=222,621\n"
+"Size=1013,289\n"
+"Collapsed=0\n"
+"DockId=0x00000004,0\n"
+"[Window][Select a GB ROM##filebrowser_140732853819512]\n"
+"Pos=458,230\n"
+"Size=700,450\n"
+"Collapsed=0\n"
+"[Window][about]\n"
+"Pos=565,364v\n"
+"Size=486,182\n"
+"Collapsed=0\n"
+"[Docking][Data]\n"
+"DockSpace         ID=0x91E92092 Window=0x88446EDE Pos=0,19 Size=1616,891 Split=X\n"
+"DockNode        ID=0x00000005 Parent=0x91E92092 SizeRef=1395,941 Split=X\n"
+"DockNode      ID=0x00000001 Parent=0x00000005 SizeRef=220,941 Split=Y Selected=0x6BBB9E69\n"
+"DockNode    ID=0x00000007 Parent=0x00000001 SizeRef=220,487 Selected=0x039BEE69\n"
+"DockNode    ID=0x00000008 Parent=0x00000001 SizeRef=220,402 Selected=0xD9BC1991\n"
+"DockNode      ID=0x00000002 Parent=0x00000005 SizeRef=1173,941 Split=Y Selected=0x2C2434F9\n"
+"DockNode    ID=0x00000003 Parent=0x00000002 SizeRef=1013,600 Split=X Selected=0x2C2434F9\n"
+"DockNode  ID=0x00000009 Parent=0x00000003 SizeRef=791,600 CentralNode=1 Selected=0x2C2434F9\n"
+"DockNode  ID=0x0000000A Parent=0x00000003 SizeRef=220,600 Selected=0x2C2712A4\n"
+"DockNode    ID=0x00000004 Parent=0x00000002 SizeRef=1013,289 Selected=0xEEE17D0F\n"
+"DockNode        ID=0x00000006 Parent=0x91E92092 SizeRef=379,941 Selected=0x39BFDE0E";
+
 
 void GUI::initializeImgui() {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::StyleColorsDark();
+    io.IniFilename = NULL;
+    ImGui::LoadIniSettingsFromMemory(imgui_ini, sizeof(imgui_ini));
 
+
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    ImGuiStyle * style = &ImGui::GetStyle();
+	ImGui::StyleColorsLight();
+//    ImGuiStyle * style = &ImGui::GetStyle();
+//
+//    style->WindowPadding = ImVec2(15, 15);
+//    style->WindowRounding = 5.0f;
+//    style->FramePadding = ImVec2(5, 5);
+//    style->FrameRounding = 4.0f;
+//    style->ItemSpacing = ImVec2(12, 8);
+//    style->ItemInnerSpacing = ImVec2(8, 6);
+//    style->IndentSpacing = 25.0f;
+//    style->ScrollbarSize = 15.0f;
+//    style->ScrollbarRounding = 9.0f;
+//    style->GrabMinSize = 5.0f;
+//    style->GrabRounding = 3.0f;
+//
+//    style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+//    style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+//    style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+////    style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+//    style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+//    style->Colors[ImGuiCol_Border] = ImVec4(0.80f, 0.80f, 0.83f, 0.88f);
+//    style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
+//    style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+//    style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+//    style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+//    style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+//    style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
+//    style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+//    style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+//    style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+//    style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+//    style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+//    style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+////    style->Colors[ImGuiCol_ComboBg] = ImVec4(0.19f, 0.18f, 0.21f, 1.00f);
+//    style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+//    style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+//    style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+//    style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+//    style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+//    style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+//    style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+//    style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+////    style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+////    style->Colors[ImGuiCol_Column] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+////    style->Colors[ImGuiCol_ColumnHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+////    style->Colors[ImGuiCol_ColumnActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+//    style->Colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+//    style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+//    style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+////    style->Colors[ImGuiCol_CloseButton] = ImVec4(0.40f, 0.39f, 0.38f, 0.16f);
+////    style->Colors[ImGuiCol_CloseButtonHovered] = ImVec4(0.40f, 0.39f, 0.38f, 0.39f);
+////    style->Colors[ImGuiCol_CloseButtonActive] = ImVec4(0.40f, 0.39f, 0.38f, 1.00f);
+//    style->Colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+//    style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+//    style->Colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+//    style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+//    style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
+//    style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 	// Setup ImGui Platform/Renderer bindings
 	ImGui_ImplSDL2_InitForOpenGL(window, glcontext);
 	ImGui_ImplOpenGL3_Init(glsl_version);
@@ -657,7 +785,9 @@ void GUI::triggerRomLoadDialog() {
 void GUI::render() {
 	// Start a new frame
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplSDL2_NewFrame();
+//	ImGui_ImplSDL2_NewFrame(window);
+
 	ImGui::NewFrame();
 
 	// Set global style
