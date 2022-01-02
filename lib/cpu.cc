@@ -14,7 +14,7 @@ void CPU::initialize()
 	r.l = 0x4D;
 	r.f = 0xB0;//0;
 	r.sp = 0xFFFE;
-	
+	callStackDepth = 0;
 	// Jump over bios
 	r.pc = 0x0100;
 //    r.pc = 0x0000;

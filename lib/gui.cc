@@ -831,7 +831,7 @@ void GUI::render() {
 			}
 			ImGui::Separator();
 			if (ImGui::MenuItem("Exit")) {
-				printf("TODO exit\n");
+				exit(-1);
 			}
 			ImGui::EndMenu();
 		}
@@ -853,11 +853,7 @@ void GUI::render() {
 						ImGui::OpenPopup("about");
 				
 					if (ImGui::BeginPopupModal("about", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-						ImGui::Text("Dromaius is a GameBoy (DMG) emulator and debugger.\n");
-						ImGui::Text("https://github.com/ThomasRinsma/dromaius/\n\n");
-						ImGui::Text("Libraries used:");
-						ImGui::BulletText("Dear ImGui: https://github.com/ocornut/imgui");
-						ImGui::BulletText("imgui-filebrowser: https://github.com/AirGuanZ/imgui-filebrowser");
+						ImGui::Text("This is GameBoy emulator and debugger.\n");
 						ImGui::Text("\n\n");
 
 						if (ImGui::Button("Close", ImVec2(80, 0)))

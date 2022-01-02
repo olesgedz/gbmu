@@ -33,6 +33,11 @@ void Audio::initialize()
 		sample_ctr = 0;
 
 		initialized = true;
+		memset((void *)&ch1, 0, sizeof(ch1));
+	  memset((void *)&ch2, 0, sizeof(ch2));
+	  memset((void *)&ch3, 0, sizeof(ch3));
+	  memset((void *)&ch4, 0, sizeof(ch4));
+
 	}
 }
 
@@ -198,7 +203,8 @@ void Audio::audio_callback(void *userdata, unsigned char *stream, int len)
 
 void Audio::play_audio(uint8_t *stream, int len)
 {
-	double t, f = 220;
+	double t = 0;
+	double f = 220;
 	int8_t ch_sample[4] = {0, 0, 0, 0};
 	int16_t tmp;
 
