@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <imgui.h>
+#include <imgui_impl_sdl.h>
 #include <imgui_internal.h>
 #include <imfilebrowser.h>
 #include <GL/gl3w.h>
