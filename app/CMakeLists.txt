@@ -1,5 +1,21 @@
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CXX_STANDARD 20)
+
+function(add_framework target framework)
+	if(APPLE)
+		find_library(found ${framework})
+
+		if(${found} STREQUAL "${framework}-NOTFOUND")
+			message(FATAL_ERROR "ERROR: ${framework} not found (${CMAKE_OSX_SYSROOT})")
+		endif()
+
+		#message("Found framework ${found}")
+
+		target_link_libraries(${target} ${found})
+	endif()
+endfunction()
+
+
 if(NOT WIN32)
 set(CMAKE_CXX_FLAGS  -std=c++20)
 elseif(MSVC)
@@ -9,7 +25,7 @@ elseif(MSVC)
 endif()
 set(MAIN_SOURCES main.cc)
 include_directories(${PROJECT_SOURCE_DIR}/extern/imgui;${PROJECT_SOURCE_DIR}/extern/imgui/backends;${PROJECT_SOURCE_DIR}/extern/imgui-filebrowser)
-include_directories(${PROJECT_SOURCE_DIR}/lib)
+include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3w/include)
 message("message libs  ${SDL2_LIBRARIES}")
 message("message includes: ${SDL2_INCLUDE_DIRS}")
 #set(CMAKE_EXE_LINKER_FLAGS "-static")
@@ -19,9 +35,14 @@ target_link_libraries(gbemu lib)
 if(WIN32)
 	target_link_libraries(gbemu gl3w SDL2main SDL2 )
 elseif (UNIX AND NOT APPLE)
-target_link_libraries(gbemu SDL2main SDL2 gl3w)
+target_link_libraries(gbemu SDL2main SDL2)
 else(APPLE)
-	target_link_libraries(gbemu  gl3w ${SDL2_LIBRARIES} )
+	include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3wsrc/include)
+
+	target_link_libraries(gbemu   ${SDL2_LIBRARIES})
+	target_link_libraries(gbemu "-lm -liconv -Wl -framework CoreAudio, -framework AudioToolbox -framework ForceFeedback -lobjc -framework GameController -framework CoreVideo -framework Cocoa -framework Carbon -framework IOKit -weak_framework QuartzCore -weak_framework Metal")
+	add_library(glw3s ${PROJECT_SOURCE_DIR}/extern/gl3wsrc/src/gl3w.c)
+	target_link_libraries(gbemu  glw3s)
 endif()
 
 
