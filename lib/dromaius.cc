@@ -60,7 +60,7 @@ void Dromaius::saveState(uint8_t slot)
 
 	// Write to file
 	char filename[255];
-	sprintf(filename, "savestate_%d.bin", slot);
+	sprintf(filename, "savestate_%s_%d.bin", filename, slot);
 	std::ofstream file(filename, std::ios::binary);
 	file.write((const char *)state, sizeof(state));
 }
@@ -72,7 +72,7 @@ bool Dromaius::loadState(uint8_t slot)
 
 	// Load file
 	char filename[255];
-	sprintf(filename, "savestate_%d.bin", slot);
+	sprintf(filename, "savestate_%s_%d.bin",  filename, slot);
 	std::ifstream file(filename, std::ios::binary);
 
 	// Verify length

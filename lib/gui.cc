@@ -340,7 +340,7 @@ void GUI::renderCPUDebugWindow() {
 	ImGui::Begin("CPU", nullptr);
 
 	if (emu->memory.romLoaded) {
-		ImGui::Text("cycle: %d", emu->cpu.c);
+		ImGui::Text("cycle: %d", (int)emu->cpu.c);
 
 		ImGui::Separator();
 
@@ -504,8 +504,8 @@ void GUI::renderGraphicsDebugWindow() {
 				ImGui::TableSetupColumn("5", ImGuiTableColumnFlags_None, 16);
 
 				for (int i = 0; i < 40; i++) {
-					int spriteVisible = ((emu->graphics.spritedata[i].x > -8 and emu->graphics.spritedata[i].x < 168)
-						and (emu->graphics.spritedata[i].y > -16 and emu->graphics.spritedata[i].y < 160));
+					int spriteVisible = ((emu->graphics.spritedata[i].x < 168)
+						and (emu->graphics.spritedata[i].y < 160));
 
 					// slightly make elements transparent if not visible
 					if (not spriteVisible) {

@@ -152,7 +152,7 @@ void Memory::tryParseSymbolsFile(std::string filename)
 			}
 			lineCnt++;
 		}
-		printf("  parsed %d symbols from %d lines \n", symCnt, lineCnt);
+		printf("  parsed %zu symbols from %zu lines \n", symCnt, lineCnt);
 
 
 	} catch (std::exception &e) {
@@ -612,7 +612,7 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 
 			//	printRegisters();
 			//}
-			emu->graphics.updateTile(b, addr & 0x1FFE);
+			emu->graphics.updateTile(addr & 0x1FFE);
 			return;
 			
 		// External RAM

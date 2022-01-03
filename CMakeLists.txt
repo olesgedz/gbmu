@@ -7,10 +7,10 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 ##set(CXX_STANDARD 20)
 add_compile_options(
 #		-Wc++11-extensions
-		#	-Werror
+#			-Werror
 #
 #	-Wall
-#	-Wextra
+	-Wextra
 #	-Wpedantic
 #
 #	-Wcast-align

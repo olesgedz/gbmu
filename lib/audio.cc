@@ -37,6 +37,7 @@ void Audio::initialize()
 	  memset((void *)&ch2, 0, sizeof(ch2));
 	  memset((void *)&ch3, 0, sizeof(ch3));
 	  memset((void *)&ch4, 0, sizeof(ch4));
+      ch3.waveCtr = 0;
 
 	}
 }
@@ -196,13 +197,14 @@ inline int8_t Audio::squarewave(uint32_t f, double t, int8_t dutyline) const
 
 int8_t dutylines[4] = {-118, -90, 0, 90};
 
-void Audio::audio_callback(void *userdata, unsigned char *stream, int len)
+void Audio::audio_callback(void *userdata, uint8_t *stream, int len)
 {
     static_cast<Audio*>(userdata)->play_audio(stream, len);
 }
 
 void Audio::play_audio(uint8_t *stream, int len)
 {
+
 	double t = 0;
 	double f = 220;
 	int8_t ch_sample[4] = {0, 0, 0, 0};
@@ -227,7 +229,7 @@ void Audio::play_audio(uint8_t *stream, int len)
 						// Sweep if enabled and enough time has passed
 						if (ch1.sweepTime != 0 &&
 							t - ch1.lastSweep > (ch1.sweepTime / 128.0)) {
-							// 
+							//
 							// X(t) = X(t-1) +/- X(t-1)/2^n
 							if (ch1.sweepDir == 0) {
 								ch1.freq += ch1.freq >> ch1.sweepExp;

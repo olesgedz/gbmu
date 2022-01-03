@@ -101,7 +101,7 @@ struct Graphics
 	void printDebug();
 	void renderDebugTileset();
 	void renderScanline();
-	void updateTile(uint8_t b, uint16_t addr);
+	void updateTile(uint16_t addr);
 	void buildSpriteData(uint8_t b, uint16_t addr);
 	void renderFrame();
 	void renderGUI();

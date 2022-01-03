@@ -459,7 +459,7 @@ void Graphics::renderScanline()
 	}
 }
 
-void Graphics::updateTile(uint8_t b, uint16_t addr)
+void Graphics::updateTile(uint16_t addr)
 {
 	int tile = (addr >> 4) & 0x1FF;
 	int row = (addr >> 1) & 0x07;

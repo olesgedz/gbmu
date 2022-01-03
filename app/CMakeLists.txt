@@ -21,7 +21,7 @@ if(WIN32)
 elseif (UNIX AND NOT APPLE)
 target_link_libraries(gbemu SDL2main SDL2 gl3w)
 else(APPLE)
-	target_link_libraries(gbemu  ${SDL2_LIBRARIES} gl3w)
+	target_link_libraries(gbemu  gl3w ${SDL2_LIBRARIES} )
 endif()
 
 
