@@ -85,9 +85,6 @@ GUI::GUI() {
 }
 
 GUI::~GUI() {
-    size_t settings_size = 1000;
-    const char *ini = ImGui::SaveIniSettingsToMemory(&settings_size);
-    printf("%s\n",ini);
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 	//SDL_GL_DeleteContext(glcontext);
