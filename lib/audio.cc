@@ -11,6 +11,7 @@ Audio::~Audio()
 
 void Audio::initialize()
 {
+//    isEnabled = false;
 	if (not initialized) {
 		memset(&want, 0, sizeof(want));
 
@@ -27,7 +28,7 @@ void Audio::initialize()
 		}
 
 		// Unpause audio device
-		SDL_PauseAudioDevice(dev, 0);
+		SDL_PauseAudioDevice(dev, 1);
 
 		// Reset sample counter
 		sample_ctr = 0;

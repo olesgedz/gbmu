@@ -8,7 +8,7 @@
 #include <map>
 #include "dromaius.h"
 
-constexpr uint8_t Memory::bios[256];
+//constexpr uint8_t Memory::bios[256];
 
 Memory::~Memory()
 {
@@ -25,8 +25,11 @@ void Memory::initialize()
 	bankMode = 0;
 	ramBank = 0;
 	romBank = 1;
+    bios[0x00E0] = 0xC3;
+    bios[0x00E1] = 0x00; // 0x0100 (low byte)
+    bios[0x00E2] = 0x01; // 0x0100 (high byte)
 
-	// Clear RAM buffers
+    // Clear RAM buffers
 	memset(workram, 0x00, sizeof(workram));
 	memset(extram, 0x00, sizeof(extram));
 	memset(zeropageram, 0x00, sizeof(zeropageram));
