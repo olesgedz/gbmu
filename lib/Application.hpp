@@ -49,9 +49,8 @@ typedef struct settings_s {
 } settings_t;
 
 
-class Application
+struct Application
 {
-public:
 	// GB subcomponents
 	CPU cpu;
 	Graphics graphics;

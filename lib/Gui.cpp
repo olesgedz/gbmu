@@ -756,7 +756,7 @@ void GUI::renderGBScreenWindow() {
 		ImGui::Image((void*)((intptr_t)emu->graphics.screenTexture), image_size,
 			ImVec2(0,0), ImVec2(1,1), ImColor(255,255,255,255), ImColor(0,0,0,0));
 	}
-
+    emu->memory.cart_battery_save();
 	ImGui::End();
 }
 

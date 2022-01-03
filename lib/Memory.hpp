@@ -109,7 +109,8 @@ struct Memory
 	void unloadRom();
 	void initialize();
 	void freeBuffers();
-
+    void cart_battery_save();
+    void cart_battery_load();
 };
 
 #endif

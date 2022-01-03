@@ -105,7 +105,8 @@ bool Memory::loadRom(std::string const &filename)
 	std::filesystem::path symfile = filename;
 	symfile.replace_extension(".sym");
 	tryParseSymbolsFile(symfile.string());
-	return true;
+    cart_battery_load();
+    return true;
 }
 
 void Memory::unloadRom() {
@@ -750,4 +751,26 @@ void Memory::dumpToFile(std::string const &filename) {
 	for (int i = 0; i < 0xFFFF; ++i) {
 		outFile << readByte(i);
 	}
+}
+
+void Memory::cart_battery_load() {
+    char fn[1048];
+    sprintf(fn, "%s.battery", emu->filename.c_str());
+    FILE *fp = fopen(fn, "rb");
+    if (!fp) {
+        fprintf(stderr, "FAILED TO LOAD, OPEN FILE %s\n", fn);
+        return;
+    }
+    fread(&workram, 0x2000, 1, fp);
+    fclose(fp);
+}
+void Memory::cart_battery_save() {
+    char fn[1048];
+    sprintf(fn, "%s.battery",  emu->filename.c_str());
+    FILE *fp = fopen(fn, "wb");
+    if (!fp) {
+        fprintf(stderr, "FAILED TO SAVE, OPEN FILE %s\n", fn);
+    }
+    fwrite(&workram, 0x2000, 1, fp);
+    fclose(fp);
 }
