@@ -2,7 +2,7 @@
 #define INCLUDED_CPU_H
 
 #include <cstdint>
-struct Dromaius;
+struct Application;
 
 #define CPU_CALL_STACK_SIZE 0x100
 
@@ -55,7 +55,7 @@ struct CPU
 	};
 
 	// Up-reference
-	Dromaius *emu;
+	Application *emu;
 
 	regs_s r;
 	regs_s registerStore;

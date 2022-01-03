@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-#include "dromaius.h"
+#include "Application.hpp"
 
 // Default settings
 settings_t initSettings()
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	
 	// Initialize emulator with settings
 	settings_t settings = initSettings();
-	Dromaius emu(settings);
+	Application emu(settings);
 
 
 	if (filename) {

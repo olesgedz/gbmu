@@ -2,7 +2,7 @@
 #define INCLUDED_GRAPHICS_H
 
 #include <cstdint>
-struct Dromaius;
+struct Application;
 
 #define GB_SCREEN_WIDTH  160
 #define GB_SCREEN_HEIGHT 144
@@ -59,7 +59,7 @@ struct Graphics
 	};
 
 	// Up-reference
-	Dromaius *emu;
+	Application *emu;
 
 	unsigned int screenScale;
 

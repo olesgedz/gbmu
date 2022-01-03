@@ -3,11 +3,11 @@
 #include <cstdlib>
 #include <string>
 #include <fstream>
-#include "dromaius.h"
+#include "Application.hpp"
 
 
 // Give all components an up-reference to us.
-Dromaius::Dromaius(settings_t settings)
+Application::Application(settings_t settings)
 {
 	cpu.emu = this;
 	graphics.emu = this;
@@ -20,7 +20,7 @@ Dromaius::Dromaius(settings_t settings)
 	this->settings = settings;
 }
 
-bool Dromaius::initializeWithRom(std::string const filename)
+bool Application::initializeWithRom(std::string const filename)
 {
 	// Save the ROM filename
 	this->filename = filename;
@@ -32,11 +32,11 @@ bool Dromaius::initializeWithRom(std::string const filename)
 	return memory.loadRom(this->filename);
 }
 
-void Dromaius::unloadRom() {
+void Application::unloadRom() {
 	memory.unloadRom();
 }
 
-void Dromaius::reset()
+void Application::reset()
 {
 	// (re-)initialize GB components
 	cpu.initialize();
@@ -46,7 +46,7 @@ void Dromaius::reset()
 	audio.initialize();
 }
 
-void Dromaius::saveState(uint8_t slot)
+void Application::saveState(uint8_t slot)
 {
 	uint8_t state[sizeof(Audio) + sizeof(CPU) + sizeof(Graphics) + sizeof(Input) + sizeof(Memory)];
 
@@ -65,7 +65,7 @@ void Dromaius::saveState(uint8_t slot)
 	file.write((const char *)state, sizeof(state));
 }
 
-bool Dromaius::loadState(uint8_t slot)
+bool Application::loadState(uint8_t slot)
 {
 	size_t expectedLen = sizeof(Audio) + sizeof(CPU) + sizeof(Graphics) + sizeof(Input) + sizeof(Memory);
   	uint8_t *state = (uint8_t *)malloc(expectedLen * sizeof(uint8_t));
@@ -117,7 +117,7 @@ bool Dromaius::loadState(uint8_t slot)
 	return true;
 }
 
-void Dromaius::run()
+void Application::run()
 {
 	// Instruction loop
 	bool done = false;

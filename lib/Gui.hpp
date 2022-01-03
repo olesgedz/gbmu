@@ -2,12 +2,12 @@
 #define INCLUDED_GUI_H
 
 #include <cstdint>
-struct Dromaius;
+struct Application;
 
 struct GUI
 {
 	// Up-reference
-	Dromaius *emu;
+	Application *emu;
 	
 	// window states
 	bool showCPUDebugWindow = true;

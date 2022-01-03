@@ -5,14 +5,14 @@
 #include <cstdint>
 #include <string>
 #include <map>
-struct Dromaius;
+struct Application;
 
 #define MEMORY_MAX_SYMBOL_SIZE 100
 
 struct Memory
 {
 	// Up-reference
-	Dromaius *emu;
+	Application *emu;
 
 	// Hardcoded GameBoy bios
 	static  uint8_t bios[256];

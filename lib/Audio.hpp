@@ -2,13 +2,13 @@
 #define INCLUDED_AUDIO_H
 
 #include <cstdint>
-struct Dromaius;
+struct Application;
 
 #define AUDIO_SAMPLE_HISTORY_SIZE 256
 
 struct Audio
 {
-	Dromaius *emu;
+	Application *emu;
 
 	struct channel1_t {
 		bool isEnabled;

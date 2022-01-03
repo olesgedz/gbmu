@@ -4,7 +4,7 @@
 #include <cstdarg>
 #include <iostream>
 #include <fstream>
-#include "dromaius.h"
+#include "Application.hpp"
 
 #define GUI_INDENT_WIDTH 16.0f
 
@@ -411,7 +411,7 @@ void GUI::renderCPUDebugWindow() {
 }
 
 // hack for lambda..
-Dromaius *g_emu;
+Application *g_emu;
 
 void GUI::renderAudioWindow() {
 	ImGui::Begin("Audio", nullptr);

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_DROMAIUS_H
-#define INCLUDED_DROMAIUS_H
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -10,13 +9,12 @@
 #include <GL/gl3w.h>
 #include <SDL.h>
 
-#include "audio.h"
-#include "cpu.h"
-#include "graphics.h"
-#include "gui.h"
-#include "input.h"
-#include "memory.h"
-#include "games/games.h"
+#include "Audio.hpp"
+#include "Cpu.hpp"
+#include "Graphics.hpp"
+#include "Gui.hpp"
+#include "Input.hpp"
+#include "Memory.hpp"
 
 typedef struct keymap_s {
 	int start;
@@ -51,8 +49,9 @@ typedef struct settings_s {
 } settings_t;
 
 
-struct Dromaius
+class Application
 {
+public:
 	// GB subcomponents
 	CPU cpu;
 	Graphics graphics;
@@ -67,7 +66,7 @@ struct Dromaius
 	// State
 	std::string filename;
 
-	Dromaius(settings_t settings);
+    Application(settings_t settings);
 
 	bool initializeWithRom(std::string const filename);
 	void unloadRom();
@@ -119,7 +118,3 @@ IMGUI_IMPL_API bool ImGui_ImplOpenGL3_CreateFontsTexture();
 IMGUI_IMPL_API void ImGui_ImplOpenGL3_DestroyFontsTexture();
 IMGUI_IMPL_API bool ImGui_ImplOpenGL3_CreateDeviceObjects();
 IMGUI_IMPL_API void ImGui_ImplOpenGL3_DestroyDeviceObjects();
-
-
-
-#endif

@@ -3,11 +3,11 @@
 
 #include <cstdint>
 #include <SDL.h>
-struct Dromaius;
+struct Application;
 struct Input
 {
 	// Up-reference
-	Dromaius *emu;
+	Application *emu;
 
 	uint8_t row[2];
 	uint8_t wire;
