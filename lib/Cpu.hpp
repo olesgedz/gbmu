@@ -70,7 +70,7 @@ struct CPU
 
 	bool fastForward;
 	bool stepMode;
-  	bool stepModeBoot;
+  	bool stepModeBoot = false;
 	bool stepInst;
 	bool stepFrame;
 	bool skipLogo;
