@@ -761,7 +761,7 @@ void Memory::cart_battery_load() {
         fprintf(stderr, "FAILED TO LOAD, OPEN FILE %s\n", fn);
         return;
     }
-    fread(&workram, 0x2000, 1, fp);
+    fread(&extram, 0x2000, 1, fp);
     fclose(fp);
 }
 void Memory::cart_battery_save() {
@@ -771,6 +771,6 @@ void Memory::cart_battery_save() {
     if (!fp) {
         fprintf(stderr, "FAILED TO SAVE, OPEN FILE %s\n", fn);
     }
-    fwrite(&workram, 0x2000, 1, fp);
+    fwrite(&extram, 0x2000, 1, fp);
     fclose(fp);
 }

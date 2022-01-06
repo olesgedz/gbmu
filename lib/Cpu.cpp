@@ -16,8 +16,14 @@ void CPU::initialize()
 	r.sp = 0xFFFE;
 	callStackDepth = 0;
 	// Jump over bios
-//	r.pc = 0x0100;
-    r.pc = 0x0000;
+	if(emu->cpu.skipLogo) {
+	  r.pc = 0x0100;
+	}
+	else {
+	  r.pc = 0x0000;
+	}
+
+
 	callStackPush(0x0000, r.pc);
 	
 	intsOn = false;//1;
@@ -38,7 +44,11 @@ void CPU::initialize()
 
 	halted = false;
 	fastForward = false;
-	stepMode = false;
+	if (stepModeBoot) {
+	  stepMode = true;
+	} else {
+	  stepMode = false;
+	}
 	stepInst = false;
 	stepFrame = false;
 

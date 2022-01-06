@@ -6,6 +6,7 @@ message("S" ${CMAKE_CXX_COMPILER})
 ##endif()
 ##set(CMAKE_CXX_EXTENSIONS ON)
 ##set(CXX_STANDARD 20)
+if (UNIX)
 add_compile_options(
 #		-Wc++11-extensions
 #			-Werror
@@ -25,8 +26,9 @@ add_compile_options(
 #	-Woverloaded-virtual
 #	-Wredundant-decls
 #	-Wsign-conversion
-#	-Wsign-promo
+#	-Wsi gn-promo
 )
+endif()
 ##add_subdirectory(src)
 #
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2")

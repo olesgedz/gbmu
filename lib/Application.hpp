@@ -64,6 +64,7 @@ struct Application
 
 	// State
 	std::string filename;
+  	bool skipLogo;
 
     Application(settings_t settings);
 

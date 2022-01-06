@@ -70,8 +70,10 @@ struct CPU
 
 	bool fastForward;
 	bool stepMode;
+  	bool stepModeBoot;
 	bool stepInst;
 	bool stepFrame;
+	bool skipLogo;
 
 	// Debugging
 	uint16_t callStack[CPU_CALL_STACK_SIZE];
