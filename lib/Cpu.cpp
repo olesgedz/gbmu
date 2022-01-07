@@ -873,7 +873,7 @@ int CPU::executeInstruction()
   dc = c;
 
   handleInterrupts();
-  if (1) {
+  if (0) {
 	inst = emu->memory.readByte(r.pc);
 	char flags[16];
 	sprintf(flags, "%c%c%c%c",
@@ -959,8 +959,8 @@ int CPU::executeInstruction()
 		break;
 
 	  case 0x08: // LD (nn), SP
-		utmp8 = emu->memory.readByte(r.pc);
-		utmp8_2 = emu->memory.readByte(r.pc + 1);
+		utmp8 = emu->memory.readByte(r.pc + 1); // fix
+		utmp8_2 = emu->memory.readByte(r.pc);
 		emu->memory.writeWord(r.sp, (utmp8 << 8) + utmp8_2);
 		r.pc += 2;
 		c += 5;
@@ -2298,7 +2298,7 @@ int CPU::executeInstruction()
 		break;
 
 	  case 0xE0: // LDH (n), A
-		emu->memory.writeByte(r.a, 0xFF00 + emu->memory.readByte(r.pc));
+		emu->memory.writeByte(r.a, 0xFF00 + (emu->memory.readByte(r.pc) & 0x00FF));
 		r.pc++;
 		c += 3;
 		break;
@@ -2312,7 +2312,7 @@ int CPU::executeInstruction()
 		break;
 
 	  case 0xE2: // LDH (C), A
-		emu->memory.writeByte(r.a, 0xFF00 + r.c);
+		emu->memory.writeByte(r.a, 0xFF00 + (r.c & 0x00FF));
 		c += 2;
 		break;
 
@@ -2397,7 +2397,7 @@ int CPU::executeInstruction()
 		break;
 
 	  case 0xF0: // LDH A, (n)
-		r.a = emu->memory.readByte(0xFF00 + emu->memory.readByte(r.pc));
+		r.a = emu->memory.readByte(0xFF00 + (emu->memory.readByte(r.pc) & 0x00FF));
 		r.pc++;
 		c += 3;
 		break;
@@ -2411,7 +2411,7 @@ int CPU::executeInstruction()
 		break;
 
 	  case 0xF2: // LDH a, (C)?
-		r.a = emu->memory.readByte(0xFF00 + r.c);
+		r.a = emu->memory.readByte(0xFF00 + (r.c & 0x00FF));
 		c += 2;
 		break;
 
