@@ -118,7 +118,7 @@ void Memory::unloadRom() {
 
 void Memory::tryParseSymbolsFile(std::string filename)
 {
-	printf("Trying to load symbols file '%s'...\n", filename.c_str());
+//	printf("Trying to load symbols file '%s'...\n", filename.c_str());
 
 	// Read sym file
 	try {
@@ -156,7 +156,7 @@ void Memory::tryParseSymbolsFile(std::string filename)
 			}
 			lineCnt++;
 		}
-		printf("  parsed %zu symbols from %zu lines \n", symCnt, lineCnt);
+//		printf("  parsed %zu symbols from %zu lines \n", symCnt, lineCnt);
 
 
 	} catch (std::exception &e) {

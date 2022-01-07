@@ -3,7 +3,7 @@
 
 #include <cstdint>
 struct Application;
-
+#define _CRT_SECURE_NO_WARNINGS
 #define CPU_CALL_STACK_SIZE 0x100
 
 /*
