@@ -39,8 +39,9 @@ int main(int argc, char *argv[])
 	if (filename) {
 		// Initialize components and try to load ROM file.
 		if (emu.initializeWithRom(argv[1])) {
-			std::cout << "Succesfully loaded ROM '" << argv[1]
-			          << "' of size " << emu.memory.romLen << " into memory.\n";
+//			std::cout << "Succesfully loaded ROM '" << argv[1]
+//			          << "' of size " << emu.memory.romLen << " into memory.\n";
+		std::cout << std::endl;
 		} else {
 			std::cerr << "Error loading rom, exiting.\n";
 			return -1;
