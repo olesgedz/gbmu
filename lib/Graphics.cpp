@@ -581,7 +581,7 @@ void Graphics::step()
 					mode = Mode::OAM;
 
 					if (OAMInt) {
-						emu->cpu.intFlags |= CPU::Int::LCDSTAT;
+//						emu->cpu.intFlags |= CPU::Int::LCDSTAT;
 					}
 				}
 			}
@@ -597,7 +597,7 @@ void Graphics::step()
 					r.line = 0;
 
 					if (OAMInt) {
-						emu->cpu.intFlags |= CPU::Int::LCDSTAT;
+//						emu->cpu.intFlags |= CPU::Int::LCDSTAT;
 					}
 				}
 			}
@@ -617,7 +617,7 @@ void Graphics::step()
 				renderScanline();
 
 				if (hBlankInt) {
-					emu->cpu.intFlags |= CPU::Int::LCDSTAT;
+//					emu->cpu.intFlags |= CPU::Int::LCDSTAT;
 				}
 			}
 	}

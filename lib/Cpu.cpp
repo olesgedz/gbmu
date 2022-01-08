@@ -2519,7 +2519,7 @@ int CPU::executeInstruction()
 	  //printf("Done halting\n");
 	}
 
-	//printf("halting: intFlags=%d, oldIntFlags=%d.\n", intFlags, oldIntFlags);
+//	printf("halting: intFlags=%d, oldIntFlags=%d.\n", intFlags, oldIntFlags);
 
 	// still increase clock
 	c += 1;
