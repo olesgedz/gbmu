@@ -1,4 +1,4 @@
-project(gbemu C CXX) #LANGUAGES CXX
+project(gbemu CXX C) #LANGUAGES CXX
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 message("S" ${CMAKE_CXX_COMPILER})
 ##if(NOT CMAKE_CXX_EXTENSIONS)
@@ -57,7 +57,7 @@ elseif(APPLE)
 set(SDL2_INCLUDE_DIRS "${CMAKE_BINARY_DIR}/extern/SDL/include/")
 include_directories("${PROJECT_SOURCE_DIR}/extern/SDL/include")
 set(SDL2_LIBRARIES "${CMAKE_BINARY_DIR}/extern/SDL/libSDL2maind.a;${CMAKE_BINARY_DIR}/extern/SDL/libSDL2d.a")
-add_subdirectory( extern/SDL )
+add_subdirectory(extern/SDL)
 endif()
 include_directories(${SDL2_INCLUDE_DIRS})
 add_subdirectory(extern/gl3w)

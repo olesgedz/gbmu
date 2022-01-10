@@ -19,9 +19,11 @@ Memory::~Memory()
 
 void Memory::initialize()
 {
+
 	// Initialize state
 	biosLoaded = true;
 	ramEnabled = true;
+    needToSave = false;
 	bankMode = 0;
 	ramBank = 0;
 	romBank = 1;
@@ -78,8 +80,8 @@ bool Memory::loadRom(std::string const &filename)
 	//printf("CGB: 0x%02X, SGB: 0x%02X, OLIC: 0x%02X, NLIC: 0x%04X, country: 0x%02X\n",
 	//	romheader->colorbyte, romheader->sgbfeatures, romheader->oldlicensee,
 	//	romheader->newlicensee, romheader->country);
-	//printf("type: 0x%02X, romsize: 0x%02X, ramsize: 0x%02X\n\n",
-	//	romheader->type, romheader->romsize, romheader->ramsize);
+	printf("type: 0x%02X, romsize: 0x%02X, ramsize: 0x%02X\n\n",
+		romheader->type, romheader->romsize, romheader->ramsize);
 
 	// Set ram size (2/8/32 KByte)
 	ramSize = romheader->ramsize;
@@ -378,7 +380,7 @@ uint8_t Memory::readByte(uint16_t addr)
 				return extram[addr & 0x1FFF];
 			}
 			else if (mbc == MBC::MBC1) {
-				if (ramSize == 0x03) { // 4 banks of 8kb
+                if (ramSize == 0x03) { // 4 banks of 8kb
 					return extram[(ramBank * 0x2000) + (addr & 0x1FFF)];
 				}
 				else { // either 2KB or 8KB total, no banks
@@ -388,7 +390,7 @@ uint8_t Memory::readByte(uint16_t addr)
 			else if (mbc == MBC::MBC2) {
 				if (addr <= 0xA1FF) {
 					// TODO: not sure how to handle only using the lower nibble
-					return extram[addr & 0x1FFF] & 0x0F;
+                    return extram[addr & 0x1FFF] & 0x0F;
 				}
 				else {
 					printf("Read from MBC2 RAM outside limit.\n");
@@ -398,11 +400,13 @@ uint8_t Memory::readByte(uint16_t addr)
 				// Ram mode
 				if (rtcReg == 0) {
 					if (ramSize == 0x03) { // 4 banks of 8kb
-						return extram[(ramBank * 0x2000) + (addr & 0x1FFF)];
+                        if (((ramBank * 0x2000) + (addr & 0x1FFF)) < 0x2000)
+						    return extram[(ramBank * 0x2000) + (addr & 0x1FFF)];
+                        return 0;
 					}
 					// TODO: not sure if this else is needed here for MBC3
 					else { // either 2KB or 8KB total, no banks
-						return extram[addr & 0x1FFF];
+                        return extram[addr & 0x1FFF];
 					}
 				} 
 				// RTC reg mode
@@ -503,12 +507,12 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 			}
 			else if (mbc == MBC::MBC1 || mbc == MBC::MBC3) {
 				ramEnabled = ((b & 0xF) == 0xA);
-			}
+            }
 			else if (mbc == MBC::MBC2) {
 				// Least sign. bit of upper addr. byte should be 0
 				if (!(addr & 0x0100)) {
 					ramEnabled = ((b & 0xF) == 0xA);
-				}
+                }
 				else {
 					printf("MBC2 RAM enable with wrong bit.\n");
 				}
@@ -525,7 +529,6 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 			else if (mbc == MBC::MBC1) {
 				// Set lower 5 bits
 				romBank = (b & 0x1F) | (romBank & 0xE0);
-
 				// Apply rom bank glitch
 				if (romBank == 0x00 || romBank == 0x20 ||
 					romBank == 0x40 || romBank == 0x60) {
@@ -562,8 +565,8 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 			}
 			else if (mbc == MBC::MBC1) {
 				if (bankMode) { // RAM
-					ramBank = (b & 0x3);
-				}
+                    ramBank = (b & 0x3);
+                }
 				else { // ROM, upper 2 bits
 					romBank = (romBank & 0x1F) | ((b & 0x3) << 5);
 
@@ -600,7 +603,7 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 			}
 			else if (mbc == MBC::MBC1) {
 				bankMode = (b & 0x1);
-			}
+            }
 			else if (mbc == MBC::MBC3) {
 				printf("TODO: latch RTC time");
 			}
@@ -622,19 +625,21 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 		// External RAM
 		case 0xA000:
 		case 0xB000:
-			if (!ramEnabled)
+            if (!ramEnabled)
 				printf("Write to disabled external RAM.\n");
 
 			if (mbc == MBC::NONE) {
 				extram[addr & 0x1FFF] = b;
 			}
 			else if (mbc == MBC::MBC1) {
-				if (ramSize == 0x03) { // 4 banks of 8kb
+
+                if (ramSize == 0x03) { // 4 banks of 8kb
 					extram[(ramBank * 0x2000) + (addr & 0x1FFF)] = b;
-				}
+                }
 				else { // either 2KB or 8KB total, no banks
 					extram[addr & 0x1FFF] = b;
-				}
+                    needToSave = true;
+                }
 			}
 			else if (mbc == MBC::MBC2) {
 				if (addr <= 0xA1FF) {
@@ -649,7 +654,8 @@ void Memory::writeByte(uint8_t b, uint16_t addr)
 				// Ram mode
 				if (rtcReg == 0) {
 					if (ramSize == 0x03) { // 4 banks of 8kb
-						extram[(ramBank * 0x2000) + (addr & 0x1FFF)] = b;
+                        if (((ramBank * 0x2000) + (addr & 0x1FFF)) < 0x2000)
+						    extram[(ramBank * 0x2000) + (addr & 0x1FFF)] = b;
 					}
 					// TODO: not sure if this else is needed here for MBC3
 					else { // either 2KB or 8KB total, no banks
@@ -761,10 +767,13 @@ void Memory::cart_battery_load() {
         fprintf(stderr, "FAILED TO LOAD, OPEN FILE %s\n", fn);
         return;
     }
+    //A000-BFFF
     fread(&extram, 0x2000, 1, fp);
     fclose(fp);
 }
 void Memory::cart_battery_save() {
+    needToSave = false;
+    std::cout << "SAVE" << std::endl;
     char fn[1048];
     sprintf(fn, "%s.battery",  emu->filename.c_str());
     FILE *fp = fopen(fn, "wb");

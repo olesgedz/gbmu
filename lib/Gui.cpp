@@ -856,7 +856,7 @@ void GUI::render() {
 		emu->unloadRom();
 		emu->initializeWithRom(filename.c_str());
 	}
-
+    if (emu->memory.needToSave)
+        emu->memory.cart_battery_save();
 	ImGui::Render();
-  emu->memory.cart_battery_save();
 }

@@ -45,6 +45,7 @@ void Application::reset()
 	input.initialize();
 	memory.initialize();
 	audio.initialize();
+    memory.loadRom(this->filename);
 }
 
 void Application::saveState(uint8_t slot)
@@ -93,14 +94,16 @@ bool Application::loadState(uint8_t slot)
   auto stepMode = cpu.stepMode;
 
   // Save non-pointers by deep copy
-  uint8_t *addrToSymbol = new uint8_t[sizeof(memory.addrToSymbol)];
-  uint8_t *symbolToAddr = new uint8_t[sizeof(memory.symbolToAddr)];
+    uint8_t *addrToSymbol = (uint8_t *)malloc( sizeof (uint8_t) * sizeof(memory.addrToSymbol));
+  uint8_t *symbolToAddr = (uint8_t *)malloc( sizeof (uint8_t) * sizeof(memory.symbolToAddr));
   memcpy(addrToSymbol, (uint8_t *)(&memory.addrToSymbol), sizeof(memory.addrToSymbol));
   memcpy(symbolToAddr, (uint8_t *)(&memory.symbolToAddr), sizeof(memory.symbolToAddr));
 
   // Overwrite all state
   uint8_t *src = state;
-  memcpy((uint8_t *)&audio, src, sizeof(Audio)); src += sizeof(Audio);
+  uint8_t *base = src;
+
+    memcpy((uint8_t *)&audio, src, sizeof(Audio)); src += sizeof(Audio);
   memcpy((uint8_t *)&cpu, src, sizeof(CPU)); src += sizeof(CPU);
   memcpy((uint8_t *)&graphics, src, sizeof(Graphics)); src += sizeof(Graphics);
   memcpy((uint8_t *)&input, src, sizeof(Input)); src += sizeof(Input);
@@ -114,7 +117,12 @@ bool Application::loadState(uint8_t slot)
   // Restore non-pointers by deep copy
   memcpy((uint8_t *)(&memory.addrToSymbol), addrToSymbol, sizeof(memory.addrToSymbol));
   memcpy((uint8_t *)(&memory.symbolToAddr), symbolToAddr, sizeof(memory.symbolToAddr));
-
+  free(addrToSymbol);
+  addrToSymbol = nullptr;
+  free (symbolToAddr);
+  symbolToAddr = nullptr;
+    free(base);
+    base = nullptr;
   return true;
 }
 

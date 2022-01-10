@@ -23,7 +23,7 @@ elseif(MSVC)
 	# Default debug flags are OK
 	set(CMAKE_CXX_FLAGS_RELEASE "{CMAKE_CXX_FLAGS_RELEASE} /O2")
 endif()
-set(MAIN_SOURCES main.cc)
+set(MAIN_SOURCES main.cpp)
 include_directories(${PROJECT_SOURCE_DIR}/extern/imgui;${PROJECT_SOURCE_DIR}/extern/imgui/backends;${PROJECT_SOURCE_DIR}/extern/imgui-filebrowser)
 include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3w/include)
 message("message libs  ${SDL2_LIBRARIES}")

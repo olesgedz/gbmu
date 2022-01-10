@@ -560,7 +560,6 @@ void Graphics::step()
 			if (mclock >= 51) {
 				mclock = 0;
 				r.line++;
-
 				//printf("coinInt = %d, line = %d, lineComp = %d\n", CoinInt, r.line, r.lineComp);
 				if (CoinInt and r.line == r.lineComp) {
 						emu->cpu.intFlags |= CPU::Int::LCDSTAT;

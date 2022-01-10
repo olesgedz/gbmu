@@ -29,12 +29,16 @@ int main(int argc, char *argv[])
 	// Optional filename argument
 	if (argc == 2) {
 		filename = argv[1];
+        std::string fl(filename);
+        if (fl.find(".gb") == std::string::npos) {
+            std::cout << "Not a valid file" << std::endl;
+            return 0;
+        }
 	}
 	
 	// Initialize emulator with settings
 	settings_t settings = initSettings();
 	Application emu(settings);
-
 
 	if (filename) {
 		// Initialize components and try to load ROM file.

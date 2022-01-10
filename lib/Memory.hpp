@@ -76,7 +76,7 @@ struct Memory
 	bool initialized = false;
 	bool romLoaded = false;
 	bool biosLoaded = true;
-
+    bool needToSave = false;
 	// map<<pageNr, addr>, symbol>
 	std::map<std::pair<uint8_t, uint16_t>, std::string> addrToSymbol;
 	// map<symbol, <pageNr, addr>>

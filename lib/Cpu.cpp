@@ -799,7 +799,7 @@ void CPU::callStackPush(uint16_t oldpc, uint16_t pc)
   // Just wrap if the callstack becomes really high..
   if (callStackDepth == CPU_CALL_STACK_SIZE - 1) {
 	callStackDepth = 0;
-	printf("callstack overflow\n");
+	//printf("callstack overflow\n");
   }
   callStack[callStackDepth++] = pc;
 }

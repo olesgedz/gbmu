@@ -9,8 +9,8 @@ elseif(MSVC)
 		# Default debug flags are OK
 		set(CMAKE_CXX_FLAGS_RELEASE "{CMAKE_CXX_FLAGS_RELEASE} /O2")
 endif()
-include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3wsrc/include)
-include_directories(${PROJECT_SOURCE_DIR}/extern/imgui;${PROJECT_SOURCE_DIR}/extern/imgui/backends;${CMAKE_BINARY_DIR}/extern/gl3w/include;${PROJECT_SOURCE_DIR}/extern/gl3w/include;
+include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3w/include)
+include_directories(${PROJECT_SOURCE_DIR}/extern/imgui;${PROJECT_SOURCE_DIR}/extern/imgui/backends;${CMAKE_BINARY_DIR}/extern/gl3w/include;${CMAKE_BINARY_DIR}/extern/gl3w/;${PROJECT_SOURCE_DIR}/extern/gl3w/include;
 		${PROJECT_SOURCE_DIR}/extern/imgui-filebrowser)
 add_library(lib Audio.cpp Cpu.cpp Application.cpp Graphics.cpp Gui.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_opengl3.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_sdl.cpp #imgui_impl_opengl3.cc imgui_impl_sdl.cc
 		Input.cpp Memory.cpp ../extern/imgui/imgui.cpp
