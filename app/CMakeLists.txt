@@ -1,21 +1,5 @@
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CXX_STANDARD 20)
-
-function(add_framework target framework)
-	if(APPLE)
-		find_library(found ${framework})
-
-		if(${found} STREQUAL "${framework}-NOTFOUND")
-			message(FATAL_ERROR "ERROR: ${framework} not found (${CMAKE_OSX_SYSROOT})")
-		endif()
-
-		#message("Found framework ${found}")
-
-		target_link_libraries(${target} ${found})
-	endif()
-endfunction()
-
-
 if(NOT WIN32)
 set(CMAKE_CXX_FLAGS  -std=c++20)
 elseif(MSVC)
@@ -35,9 +19,10 @@ target_link_libraries(gbemu lib)
 if(WIN32)
 	target_link_libraries(gbemu gl3w SDL2main SDL2 )
 elseif (UNIX AND NOT APPLE)
-target_link_libraries(gbemu SDL2main SDL2)
+	include_directories(${PROJECT_SOURCE_DIR}/lib;${CMAKE_BINARY_DIR}/extern/gl3w/include)
+target_link_libraries(gbemu SDL2main SDL2-static gl3w)
 else(APPLE)
-	include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3wsrc/include)
+	include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3w/include)
 
 	target_link_libraries(gbemu   SDL2main SDL2-static)
 	target_link_libraries(gbemu "-lm -liconv -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-weak_framework,CoreHaptics -Wl,-weak_framework,GameController -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,CoreVideo -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-weak_framework,QuartzCore -Wl,-weak_framework,Metal")
