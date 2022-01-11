@@ -45,6 +45,7 @@ void Application::reset()
 	input.initialize();
 	memory.initialize();
 	audio.initialize();
+    memory.unloadRom();
     memory.loadRom(this->filename);
 }
 
