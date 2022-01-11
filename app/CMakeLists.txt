@@ -39,7 +39,7 @@ target_link_libraries(gbemu SDL2main SDL2)
 else(APPLE)
 	include_directories(${PROJECT_SOURCE_DIR}/lib;${PROJECT_SOURCE_DIR}/extern/gl3wsrc/include)
 
-	target_link_libraries(gbemu   SDL2main SDL2)
+	target_link_libraries(gbemu   SDL2main SDL2-static)
 	target_link_libraries(gbemu "-lm -liconv -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-weak_framework,CoreHaptics -Wl,-weak_framework,GameController -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,CoreVideo -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-weak_framework,QuartzCore -Wl,-weak_framework,Metal")
 	target_link_libraries(gbemu  gl3w)
 endif()
