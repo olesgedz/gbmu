@@ -8,7 +8,7 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  BUILD_TYPE: Debug
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
 #     - name: Test
 #       working-directory: ${{github.workspace}}/build
