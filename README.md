@@ -1,4 +1,6 @@
 # Gbemu
+Gameboy emulator
+
 ![C/C++ CI MAC_OSX](https://github.com/olesgedz/gbmu/workflows/C/C++%20CI%20MAC_OSX/badge.svg)
 ![C/C++ CI_WINDOWS](https://github.com/olesgedz/gbmu/workflows/C/C++%20CI_WINDOWS/badge.svg)
 ![C/C++ CI_UBUNTU](https://github.com/olesgedz/gbmu/workflows/C/C++%20CI_UBUNTU/badge.svg)
@@ -6,7 +8,6 @@
 [![jaeskim's 42Project Score](https://badge42.herokuapp.com/api/project/jblack-b/gbmu)](https://github.com/JaeSeoKim/badge42)
 
 
-Gameboy emulator
 # Screenshots
 <!-- ## Dr.Mario
 
