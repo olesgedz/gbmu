@@ -69,6 +69,10 @@ GUI::GUI() {
 		exit(1);
 	}
     glcontext = SDL_GL_CreateContext(window);
+//  ImGuiIO& io = ImGui::GetIO(); (void)io;
+//  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+//  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+      // Enable Multi-Viewport / Platform Windows
 	SDL_GL_MakeCurrent(window, glcontext);
 
 	// Init GL functions
@@ -77,7 +81,7 @@ GUI::GUI() {
 	// Setup ImGui
 	initializeImgui();
 
-	// Disable vsync, we do our own syncing
+  // Disable vsync, we do our own syncing
 	SDL_GL_SetSwapInterval(0);
 
 	// filtering
@@ -163,10 +167,17 @@ void GUI::initializeImgui() {
     io.IniFilename = NULL;
     ImGui::LoadIniSettingsFromMemory(imgui_ini, sizeof(imgui_ini));
 
-
+//
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
     ImGuiStyle * style = &ImGui::GetStyle();
 	ImGui::StyleColorsLight();
+  if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+  {
+	style->WindowRounding = 0.0f;
+	style->Colors[ImGuiCol_WindowBg].w = 1.0f;
+  }
 	// Setup ImGui Platform/Renderer bindings
 	ImGui_ImplSDL2_InitForOpenGL(window, glcontext);
 	ImGui_ImplOpenGL3_Init(glsl_version);
@@ -678,7 +689,7 @@ void GUI::renderGameSpecificWindow() {
 //		}
 //	}
 
-	ImGui::End();
+//	ImGui::End();
 }
 
 
@@ -724,13 +735,13 @@ void GUI::triggerRomLoadDialog() {
 
 
 void GUI::render() {
-	// Start a new frame
+//	// Start a new frame
 	ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
 //	ImGui_ImplSDL2_NewFrame(window);
 
 	ImGui::NewFrame();
-
+//
 	// Set global style
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.WindowRounding = 0.0f;
@@ -741,10 +752,10 @@ void GUI::render() {
 
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	ImGui::SetNextWindowPos(ImVec2(.0f, .0f), ImGuiCond_Always);
+//	ImGui::SetNextWindowPos(ImVec2(.0f, .0f), ImGuiCond_Always);
 	ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(0.0f);
-	ImGui::Begin("Main window", nullptr, 
+	ImGui::Begin("Main window", nullptr,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoDocking |
@@ -792,7 +803,7 @@ void GUI::render() {
 				{
 					if (!ImGui::IsPopupOpen("about"))
 						ImGui::OpenPopup("about");
-				
+
 					if (ImGui::BeginPopupModal("about", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 						ImGui::Text("This is GameBoy emulator and debugger.\n");
 						ImGui::Text("\n\n");
@@ -838,12 +849,11 @@ void GUI::render() {
 
 	if (showGameSpecificWindow)
 		renderGameSpecificWindow();
-
+//
 //	if (showImguiDemoWindow)
 //		ImGui::ShowDemoWindow();
 
 
-//	ImGui::End(); // main window
 
 	// Display open ROM dialog if it is open
 	openRomDialog.Display();
@@ -858,5 +868,17 @@ void GUI::render() {
 	}
     if (emu->memory.needToSave)
         emu->memory.cart_battery_save();
-	ImGui::Render();
+
+  ImGui::End();
+
+  ImGui::Render();
+//
+  if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+	  SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
+	  SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+	  ImGui::UpdatePlatformWindows();
+	  ImGui::RenderPlatformWindowsDefault();
+	  SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+	}
 }
