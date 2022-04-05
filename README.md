@@ -5,7 +5,7 @@ Gameboy emulator
 ![C/C++ CI_WINDOWS](https://github.com/olesgedz/gbmu/workflows/C/C++%20CI_WINDOWS/badge.svg)
 ![C/C++ CI_UBUNTU](https://github.com/olesgedz/gbmu/workflows/C/C++%20CI_UBUNTU/badge.svg)
 
-[![jaeskim's 42Project Score](https://badge42.herokuapp.com/api/project/jblack-b/gbmu)](https://github.com/JaeSeoKim/badge42)
+[![jblack-b's 42 gbmu Score](https://badge42.vercel.app/api/v2/cl1luezu6001109l92q7make0/project/2064984)](https://github.com/JaeSeoKim/badge42)
 
 
 # Screenshots
